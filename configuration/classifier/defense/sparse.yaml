@@ -1,0 +1,17 @@
+# Implements sparse layer before the main structure
+# Make sure that the dimensions are compatible with the main structure
+name: "sparse"
+disable_first_module: False # If True, the first module of self.model will be an nn.Identity instead
+
+# Important parameters for compatibility with the main structure
+in_neurons: 3
+out_neurons: 3
+kernel_size: 7
+stride: 1
+pad: "same"
+
+# Hyperparameters
+lambda_: 0.25
+tau: 100
+eta: 0.01
+lca_iters: 1000

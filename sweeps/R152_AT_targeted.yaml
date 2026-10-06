@@ -1,0 +1,77 @@
+program: train_classifier.py 
+name: R152_AT_targeted_fgsm
+
+method: bayes
+metric: 
+  name: test_accuracy
+  goal: maximize
+
+parameters:
+  dataset:
+    values: [FaceScrub]
+  
+  model:
+    values: [pretrained]
+  model.architecture:
+    values: ['resnet152']
+  model.hyper.epochs:
+    values: [40]
+  model.hyper.milestones:
+    values: [[30]]
+  
+  training:
+    values: [local]
+  training.load_best_model:
+    values: [False]
+
+  defense:
+    values: ['adversarial_train']
+  defense.targeted:
+    values: [True]
+  defense.loss_weighting.standard:
+    values: [1.0]
+  defense.loss_weighting.adversarial:
+    values: [0.125]
+  
+  defense.method:
+    values: ['fgsm']
+
+  
+  ### Searches
+  model.hyper.lr:
+    distribution: uniform
+    min: 1e-5
+    max: 1e-4
+  defense.loss_weighting.adversarial:
+    distribution: uniform
+    min: 0.05
+    max: 0.125
+  defense.fgsm.epsilon:
+    distribution: uniform
+    min: 0.0005
+    max: 0.001
+  
+  # dataset.transformations.ColorJitter.brightness:
+  #   values: [0.1, 0.2, 0.3]
+  # dataset.transformations.ColorJitter.contrast:
+  #   values: [0.1, 0.2, 0.3]
+  # dataset.transformations.ColorJitter.saturation:
+  #   values: [0.1, 0.2, 0.3]
+  # dataset.transformations.ColorJitter.hue:
+  #   values: [0.1, 0.2, 0.3]
+
+  # defense.targeted.epsilon:
+  #   distribution: uniform
+  #   min: 0.0001
+  #   max: 0.001
+  # defense.loss_weighting.adversarial:
+  #   distribution: uniform
+  #   min: 0.125
+  #   max: 0.35
+
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args_no_hyphens}
+  # - python

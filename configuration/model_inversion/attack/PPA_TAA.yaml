@@ -1,0 +1,6 @@
+defaults:
+  - plug_and_play
+  - _self_
+
+attack:
+  align_method: TAA

@@ -1,0 +1,33 @@
+program: train_classifier.py 
+name: cnn_sweep_test
+
+method: bayes
+metric: 
+  name: test_accuracy
+  goal: maximize
+
+parameters:
+  model:
+    values: [cnn]
+  dataset:
+    values: [MNIST]
+  model.hyper.batch_size:
+    values: [16, 32, 64]
+  model.hyper.n_depth:
+    values: [2,3]
+  model.hyper.dropout:
+    distribution: uniform
+    min: 0.0
+    max: 0.5
+
+early_terminate:
+  type: hyperband
+  max_iter: 20
+  s: 2
+
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args_no_hyphens}
+  # - python

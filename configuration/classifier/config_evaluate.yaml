@@ -1,0 +1,65 @@
+# configuration/config.yaml
+defaults:
+  - model: pretrained   # Yaml file describing which model and hyperparameters to use
+  - dataset: FaceScrub # Yaml file with dataset specific parameters
+  - training: default # Yaml file with training specific parameters
+  - defense: no_defense # Yaml file with defense specific parameters
+  - _self_
+
+target_wandb_id: False # Give a wandb run id of the model to load from wandb
+custom_name: None # A custom name to distinguish this experiment from others with the same target model
+
+accuracy:
+  calculate: True
+  split: "test" # or "train" or "val"
+  # topk: [1, 5] # top-k accuracy
+
+hcr:
+  calculate: False
+  num_pits: 5
+  hist_bins: 1024
+  num_iter: 2
+  use_custom_indiff: False
+  num_batches: 1
+  include_avgpool: False
+  sigma_scale: 2
+
+hsic:
+  calculate: False
+  split: "train" # or "val" or "test"
+  yz_ktype: "linear" # type of kernel in HSIC(Z, Y) calculation
+
+fisher:
+  calculate: False
+
+auto_attack:
+  calculate: False
+  split: "train" # or "val" or "test"
+  version: "standard" # or "rand" or other options, see AutoAttack documentation
+  eps: 0.031
+  normalization_means: "[0.5, 0.5, 0.5]"
+  normalization_stds: "[0.5, 0.5, 0.5]"
+  num_batches: "all" # or give an integer for the number of batches from the dataloader to attempt to perturb
+
+  run_apgd_ce: True
+  run_apgd_t: False
+  run_fab_t: False
+  run_square: False
+
+  test_after: False
+  run_individual_attacks: True
+
+umap:
+  calculate: False
+  split: "train" # or "val" or "test"
+  n_neighbors: 10
+  min_dist: 0.1
+  n_components: 2
+  metric: "euclidean" # or "cosine" or many others, see UMAP documentation
+
+cluster_metrics:
+  calculate: False
+  split: "train" # or "val" or "test"
+  num_batches: "all" # or give an integer for the number of batches from the dataloader to attempt to perturb
+  calculate_silhouette: False
+  # minmax: True

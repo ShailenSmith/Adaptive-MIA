@@ -1,0 +1,10 @@
+name: "tldmi"
+freeze_layers: 6 # makes theta_C = 8.9M for ResNet-18, used in TL-DMI paper. For ResNet-152, theta_C = 16.0M, which means you're letting far fewer weights update, but this seems to match the freezing ratio in the paper for models of similar size to ResNet-152.
+
+adversarial_train: False # If True, replace each training batch with untargeted PGD adversarial examples (generated the same way as in adversarial_train.yaml) before computing the loss, so that standard untargeted adversarial training runs alongside this defense.
+
+pgd:
+  epsilon: 0.031
+  step_size: 0.0031
+  iterations: 10
+  random_start: True

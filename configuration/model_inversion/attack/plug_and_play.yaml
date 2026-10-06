@@ -1,0 +1,72 @@
+name: "plug_and_play"
+stylegan_model: "stylegan2-ada-pytorch/ffhq.pkl"
+
+evaluation_model: # Give either the wandb id of a run or the path to a config of a trained evaluation model.
+  wandb_id: "3ivev4xr" # Facescrub eval model by default. The wandb id of the run of the evaluation model. This will then extract the config and model weights from wandb.
+  config_path: False #"classifiers/saved_configs/cifardropout.yaml" # The path to a config of a trained evaluation model. Weights with the same name must be in classifiers/saved_models
+
+  # architecture: inception-v3 # architecture of evaluation model
+  # weights: classifiers/saved_models/soft-wood-101.pth # link to weight file
+
+candidates:
+  num_candidates: 200
+  candidate_search:
+    search_space_size: 2000 #! FS=2000, CA=5000
+    center_crop: 800
+    resize: 224
+    horizontal_flip: true
+    batch_size: 40
+    truncation_psi: 0.5
+    truncation_cutoff: 8
+
+attack:
+  align_method: old # ['old', 'vanilla', 'PAA', 'TAA'] -- version of AlignMI used. 'vanilla' is normal PPA, so is 'old' but orig implementation
+  batch_size: 40
+  num_epochs: 50
+  targets: "[1, 6, 7, 486, 12, 16, 500, 503, 506, 509]" # facescrub 'viz' targets
+  attack_loss_function: poincare # options: poincare, cross_entropy, negative_label_smoothing, logit_loss
+  label_smoothing_factor: -0.05 # only used when attack_loss_function=negative_label_smoothing; must be < 0
+  discriminator_loss_weight: 0.0
+  single_w: true
+  clip: false
+  alignment_score: # Gradient-manifold alignment score (Peng et al., NeurIPS'25). See model_inversion/metrics/mi_gradient_alignment.py
+    compute: false # Whether to track the alignment score during optimization
+    every: 10 # Compute the alignment score every N iterations (always computed on iteration 0)
+    chunk_size: 40 # Number of latent directions per JVP batch when estimating the generator Jacobian
+    max_samples: null # If set, subsample this many images from the batch before computing scores (null = use all)
+  transformations:
+    CenterCrop:
+      size: 800
+    Resize:
+      size: 224
+      antialias: true
+    RandomResizedCrop:
+      size: [224, 224]
+      scale: [0.9, 1.0]
+      ratio: [1.0, 1.0]
+      antialias: true
+
+  PAA:
+    stdev_spread: 0.1
+    num_samples: 20
+
+  TAA:
+    num_samples: 20
+
+  optimizer: # Optimizer used for optimization. All optimizers from torch.optim are possible.
+    Adam:
+      lr: 0.005
+      weight_decay: 0
+      betas: [0.1, 0.1]
+
+  lr_scheduler: # Option to provide a learning rate scheduler from torch.optim.
+    MultiStepLR:
+      milestones: [30, 40]
+      gamma: 0.1
+
+final_selection:
+  samples_per_target: 50 # Number of samples to select from the set of optimized latent vectors.
+  approach: transforms # Currently only transforms is available as an option.
+  iterations: 100 # Number of iterations random transformations are applied.
+
+

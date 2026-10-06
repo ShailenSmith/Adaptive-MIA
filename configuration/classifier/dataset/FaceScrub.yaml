@@ -1,0 +1,41 @@
+dataset: FaceScrub
+face_dataset: True
+group: "all" # Options: "actors", "actress", and "all".
+input_size: [3, 224, 224]
+resize: True # Will resize all images to the size given in input_size for all images
+n_classes: 530 
+val_drop_last: False # Whether drop_last=True or False on the validation and test dataloaders
+
+permute_train_labels: False # Whether to permute the training labels (Only true for permutation experiments)
+
+augment_data: True
+normalize: True
+transformations:
+  use_random_resized_crop: True
+  RandomResizedCrop:
+    size: [224, 224]
+    scale: [0.85, 1]
+    ratio: [1, 1]
+    antialias: true
+  use_color_jitter: True
+  ColorJitter:
+    brightness: 0.2
+    contrast: 0.2
+    saturation: 0.1
+    hue: 0.1
+  use_random_horizontal_flip: True
+  RandomHorizontalFlip:
+    p: 0.5
+  
+  use_gaussian_blur: False
+  GaussianBlur:
+    kernel_size: 7 # roughly 6*sigma + 1
+    sigma: 1.5 # 1 is 'light', 2 is 'noticeable', 10 is 'heavy' blur
+
+  use_cutmix: False
+  CutMix:
+    alpha: 1.0 # hyperparameter for beta distribution from which the mixing coefficient is drawn
+
+  use_mixup: False
+  MixUp:
+    alpha: 0.4 # hyperparameter for beta distribution from which the mixing coefficient is drawn

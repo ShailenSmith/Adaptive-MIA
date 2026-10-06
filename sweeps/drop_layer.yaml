@@ -1,0 +1,30 @@
+program: train_classifier.py 
+name: drop_layer
+
+method: bayes
+metric: 
+  name: test_accuracy
+  goal: maximize
+
+parameters:
+  model:
+    values: [cnn]
+  dataset:
+    values: [CIFAR10]
+  defense:
+    values: [drop_layer]
+  defense.lasso.lambda_:
+    distribution: uniform
+    min: 0.001
+    max: 0.5
+
+early_terminate:
+  type: hyperband
+  max_iter: 20
+  s: 2
+
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args_no_hyphens}

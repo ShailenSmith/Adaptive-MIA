@@ -1,0 +1,2 @@
+name: "rolss"
+skip: [1,1,1,0] # [skip_1, skip_2, skip_3, skip_4], where skip_i = 0 means remove the skip connection from the i-th block. See the RoLSS paper for more details.

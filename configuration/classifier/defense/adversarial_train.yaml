@@ -1,0 +1,27 @@
+name: "adversarial_training"
+
+use_adversarial_label: False # If True, use the adversarial predicted label as the target label
+
+loss_weighting: # Positive values means that the loss will be minimized, negative values means that the loss will be maximized
+  standard: 0.0 # Loss from the standard CE(image, target) 
+  adversarial: 1.0 # Loss from the adversarial CE(image_adv, target) 
+  adversarial_log_scale: False # If True, use the log of the adversarial loss
+
+targeted: False # If True, use the targeted attack
+method: "pgd" # "pgd" or "fgsm"
+
+pgd:
+  epsilon: 0.031
+  step_size: 0.0031
+  iterations: 10
+  random_start: True
+
+fgsm:
+  epsilon: 0.01 # 1e-2  # 0.03 #0.1
+
+helper_model:
+  use: False # If True, use the helper model to generate adversarial examples
+  wandb:
+    project: "adversarial_training" # Wandb project name
+    entity: "your_entity" # Wandb entity name
+    run_id: "adversarial_training" # Wandb run name

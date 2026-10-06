@@ -1,0 +1,23 @@
+name: "trap_mid"
+
+trapdoor:
+  alpha: 0.02
+  beta: 0.2
+  optimized: True
+  step_size: 0.01
+  discriminator_loss: True
+  discriminator_feat_loss: False
+  discriminator_feat_model_loss: False
+
+root_path: ""
+pretrained_path: ""
+trigger_path: ""
+
+bido_criterion: False
+
+adversarial_train: False # If True, replace each training batch with untargeted PGD adversarial examples (generated the same way as in adversarial_train.yaml) before computing the loss, so that standard untargeted adversarial training runs alongside this defense.
+pgd:
+  epsilon: 0.031
+  step_size: 0.0031
+  iterations: 10
+  random_start: True

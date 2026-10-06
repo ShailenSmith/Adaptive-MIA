@@ -1,0 +1,17 @@
+name: "PreTrainedClassifier"
+architecture: "resnet152" # Options: resnet18, resnet152, inception
+pretrained: True
+optimizer: "adam"
+criterion: "crossentropy"
+hotstart_model: False # Else give path to model
+flatten: False # whether or not input needs to be flattened before passing to model
+lr_scheduler: "MultiStepLR"
+
+hyper:
+  lr: 0.001
+  epochs: 100
+  batch_size: 128
+  patience: 100
+  beta2: 0.999
+  milestones: [75,90]
+  gamma: 0.1 # factor by which lr changes at each milestone for MultiStepLR

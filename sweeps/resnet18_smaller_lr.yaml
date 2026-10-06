@@ -1,0 +1,39 @@
+program: train_classifier.py 
+name: R18_lr_search_small
+
+method: bayes
+metric: 
+  name: test_accuracy
+  goal: maximize
+
+parameters:
+  model:
+    values: [pretrained]
+  dataset:
+    values: [CelebA]
+  model.architecture:
+    values: [resnet18]
+  model.lr_scheduler:
+    values: [MultiStepLR]
+  model.hyper.milestones:
+    values: ["[75, 90]"]
+  model.hyper.epochs:
+    values: [100]
+  model.hyper.gamma:
+    values: [0.1]
+  model.hyper.lr:
+    distribution: uniform
+    min: 1e-6
+    max: 5e-5
+
+early_terminate:
+  type: hyperband
+  max_iter: 10
+  s: 2
+
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - ${args_no_hyphens}
+  # - python

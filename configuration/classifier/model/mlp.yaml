@@ -1,0 +1,18 @@
+name: "MLP"
+optimizer: "adam"
+criterion: "crossentropy"
+flatten: True
+hotstart_model: False # Else give path to model
+lr_scheduler: False # "MultiStepLR", 
+hyper:
+  lr: 0.001
+  epochs: 20
+  batch_size: 128
+  n_neurons: 64  
+  n_depth: 2
+  dropout: 0.0
+  kernel_size: 3
+  patience: 10
+  beta2: 0.999
+  milestones: False # Ex. [75, 90]
+  gamma: False # Ex. 0.1, factor by which lr changes at each milestone for MultiStepLR

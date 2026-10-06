@@ -1,0 +1,33 @@
+name: "drop_layer"
+penalty: True
+apply_threshold: True
+lasso:
+  lambda_: 0.025
+  initial_threshold: 1e-6
+  change_threshold_epoch: 10
+  threshold: 0.0025
+  ridge_lambda: 0
+  adaptive: False # "Group Lasso + Adaptive Group Lasso" (GL+AGL), see (Dinh and Ho, 2020)
+  adaptive_gamma: 1 # "rho" in our paper
+  pre_adapted_run_id: "evb0kswf"
+  pre_adapted_entity: "BreuerLab"
+  pre_adapted_project: "ModelInversion"
+  track_features: "[[0, 0], [0, 223], [112, 112], [223, 0], [223, 223]]"
+  
+mask_init: 0.5 # needs to be a float I think
+plot_mask: True
+load_only_mask: False
+use_frozen_custom_mask: False # else give local path to mask (not connected to wandb yet)
+save_mask_layer_freq: 5
+
+onezero: False
+
+# post_mask_aug: False
+# mask_as_transform: False
+
+masked_dataset:
+  # recompute: False
+  # use: False
+  directory_name: "test"
+
+mask_method: "mask_layer" # Options: ["mask_layer", "mask_as_transform", "masked_dataset"]

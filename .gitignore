@@ -1,0 +1,71 @@
+.vscode
+.conda
+**__pycache__**
+/venv
+
+*.json
+*.pth
+*.pdf
+*.pt
+*.log
+*.png 
+*.npy
+*.csv
+*.tar
+
+
+# Local credentials, checkpoints, and experiment settings
+.env
+.env.*
+*.pem
+*.key
+*.pkl
+*.ckpt
+*.safetensors
+/gifs/
+
+/lca_results
+
+*.DS_Store
+.DS_store
+
+config.yaml
+/classifiers/saved_configs
+# /configuration/model_inversion/training/local.yaml
+# /configuration/classifier/training/local.yaml
+/outputs
+/wandb
+wandb-summary.json
+
+/stylegan2-ada-pytorch
+/Plug_and_Play_Attacks
+/Defend_MI
+/RoLSS
+/hcrbounds
+/IF_GMI
+/autoattack
+/Trap_MID
+/PPDG_MI
+MI_Eval_MLLM
+
+/cloned_repos
+
+/defenses/non_robust_data
+/logs
+experiments/experiment_wandb_runs
+/memory_snapshots
+/model_inversion/mllm_data
+
+# new_requirements.txt
+# csv_making.py
+# make_master_csvs.py
+# old_make_master_csvs.py
+# add_experiment_name_wandb.py
+# run_lambdalabs.py
+
+wandb_runs.txt
+new_setup_packages.bash
+client_secrets.json
+drop_layer_visualization.py
+
+CLAUDE.md
